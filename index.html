@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamCore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b9d 10%, #85d3ff 90%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .splash-icon {
+            font-size: 45px;
+            color: #fff;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        #all-content {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            background-color: transparent;
+        }
+
+        #searchbar {
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            display: flex;
+            height: 60px;
+            margin-top: 20px;
+            width: 100%;
+            background-color: transparent;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #search {
+            height: 35px;
+            width: 300px;
+            border: none;
+            border-radius: 21px;
+            font-family: poppins, sans-serif;
+            font-weight: bold;
+            font-size: medium;
+            padding: 0 15px;
+            margin-left: 20px;
+        }
+
+        #div-leaver {
+            width: 20px;
+        }
+
+        #glass {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 35px;
+            width: 35px;
+            border: none;
+            border-radius: 50%;
+            background: #fff;
+            color: #000;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        #song-wrapper {
+            height: 700px;
+            margin-top: 20px;
+            width: 90%;
+            margin-left: 19px;
+            background-color: transparent;
+            border-radius: 21px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #native-control-layout {
+            display: flex;
+            align-items: center;
+            justify-content:space-evenly;
+            flex-direction: row;
+            height: 85px;
+            width: 100%;
+            background-color: transparent;
+            color: #fff;
+            margin-top: 29px;
+            font-size: x-large;
+        }
+
+        /* Make sure iframe is interactive */
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: auto; /* Ensure it's clickable */
+        }
+    </style>
+</head>
+<body>
+    <div id="splash-screen">
+        <i class="fas fa-headphones splash-icon"></i>
+    </div>
+
+    <div id="all-content">
+        <div id="searchbar">
+            <input type="text" id="search" placeholder="Search...">
+            <div id="div-leaver"></div>
+            <button id="glass"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div id="song-wrapper">
+            <iframe 
+                width="100%" 
+                height="100%" 
+                scrolling="no" 
+                frameborder="no" 
+                allow="autoplay" 
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/2009078619&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+            </iframe>
+        </div>
+
+        <div id="native-control-layout">
+            <i class="fas fa-home"></i>
+            <i class="fas fa-list"></i>
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                // Fade out splash screen
+                document.getElementById('splash-screen').style.opacity = '0';
+                
+                // Show main content
+                document.getElementById('all-content').style.display = 'flex';
+                
+                // Remove splash screen from DOM after fade out
+                setTimeout(function() {
+                    document.getElementById('splash-screen').remove();
+                }, 500);
+            }, 3000);
+        });
+    </script>
+</body>
+
+
+<!--<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/2009078619&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/fistofgod" title="FistofGod" target="_blank" style="color: #cccccc; text-decoration: none;">FistofGod</a> · <a href="https://soundcloud.com/fistofgod/sets/save-europe" title="Save Europe" target="_blank" style="color: #cccccc; text-decoration: none;">Save Europe</a></div>-->
+</html>
