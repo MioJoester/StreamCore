@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamCore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <style>
         :root {
             --primary-purple: #8a2be2;
@@ -16,7 +17,7 @@
         }
 
         body {
-            background-color: #000;
+            background-color:#000;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -137,7 +138,7 @@
             width: 100%;
             height: 100%;
             display: none;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform;
         }
 
@@ -145,36 +146,57 @@
             display: block;
         }
 
-        /* Track navigation arrows */
-        .nav-arrow {
+        /* Swipe indicators */
+        .swipe-indicator {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 30px;
-            color: var(--text-light);
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
+            gap: 8px;
+            z-index: 5;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background-color: var(--light-purple);
+            transform: scale(1.2);
+        }
+
+        /* Swipe animation classes */
+        .swipe-left {
+            transform: translateX(-100%);
             opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
-        #prev-track {
-            left: 10px;
+        .swipe-right {
+            transform: translateX(100%);
+            opacity: 0;
         }
 
-        #next-track {
-            right: 10px;
+        .swipe-from-right {
+            animation: swipeFromRight 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        #player-container:hover .nav-arrow {
-            opacity: 1;
+        .swipe-from-left {
+            animation: swipeFromLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes swipeFromRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes swipeFromLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         /* Library and profile sections */
@@ -186,19 +208,16 @@
         }
 
         /* Library items */
-         .library-item {
+        .library-item {
             display: flex;
             align-items: center;
             padding: 15px;
-            width: 1150px;
             margin-bottom: 12px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            touch-action: none;
         }
-
 
         .library-item:hover {
             background-color: rgba(255, 255, 255, 0.2);
@@ -306,30 +325,6 @@
             border-radius: 21px;
         }
 
-        /* Swipe indicators */
-        .swipe-indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 5;
-        }
-
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        .indicator-dot.active {
-            background-color: var(--light-purple);
-            transform: scale(1.2);
-        }
-
         /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
@@ -341,31 +336,13 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #121212;
+            background: var(--primary-purple);
             border-radius: 10px;
-            transition: 0.3s ease;
         }
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-purple);
         }
-
-          @media (max-width:700px) {
-
-            .library-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            width: 310px;
-            margin-bottom: 12px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            touch-action: none;
-        }
-
-    }
     </style>
 </head>
 <body>
@@ -382,9 +359,6 @@
 
         <!-- Player container with swipe area -->
         <div id="player-container">
-            <!-- Track navigation arrows -->
-           
-
             <!-- Swipe indicators -->
             <div class="swipe-indicator">
                 <div class="indicator-dot active" data-index="0"></div>
@@ -472,14 +446,12 @@
         // Track list with different SoundCloud embeds
         const tracks = [
             "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/835850782&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
-            "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
+            "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293528565&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
             "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1031569726&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         ];
 
         let currentTrackIndex = 0;
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let isDragging = false;
+        let isAnimating = false;
 
         // Initialize the app after splash screen
         window.addEventListener('load', function() {
@@ -490,6 +462,7 @@
                 setTimeout(function() {
                     document.getElementById('splash-screen').remove();
                     initializePlayer();
+                    setupSwipeControls();
                 }, 500);
             }, 3000);
         });
@@ -506,6 +479,8 @@
         }
 
         function loadTrack(index) {
+            if (isAnimating) return;
+            
             const iframe = document.getElementById('player-iframe');
             iframe.src = tracks[index];
             
@@ -519,6 +494,53 @@
             widget.bind(SC.Widget.Events.READY, function() {
                 console.log("Track loaded:", index);
             });
+        }
+
+        function setupSwipeControls() {
+            const playerContainer = document.getElementById('player-container');
+            const hammer = new Hammer(playerContainer);
+            
+            // Enable horizontal swipe recognition
+            hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+            
+            // Swipe left handler (next track)
+            hammer.on('swipeleft', function() {
+                if (isAnimating) return;
+                navigateTracks(1);
+            });
+            
+            // Swipe right handler (previous track)
+            hammer.on('swiperight', function() {
+                if (isAnimating) return;
+                navigateTracks(-1);
+            });
+        }
+
+        function navigateTracks(direction) {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            const currentContent = document.getElementById('home-content');
+            const newIndex = (currentTrackIndex + direction + tracks.length) % tracks.length;
+            
+            // Apply swipe animation to current content
+            currentContent.classList.add(direction === 1 ? 'swipe-left' : 'swipe-right');
+            
+            setTimeout(() => {
+                // Load new track
+                currentTrackIndex = newIndex;
+                loadTrack(currentTrackIndex);
+                
+                // Reset animation classes
+                currentContent.classList.remove('swipe-left', 'swipe-right');
+                currentContent.classList.add(direction === 1 ? 'swipe-from-right' : 'swipe-from-left');
+                
+                // Remove animation class after transition
+                setTimeout(() => {
+                    currentContent.classList.remove('swipe-from-right', 'swipe-from-left');
+                    isAnimating = false;
+                }, 400);
+            }, 100);
         }
 
         // Navigation click handler
@@ -536,49 +558,12 @@
             });
         });
 
-        // Track navigation
-        document.getElementById('next-track').addEventListener('click', () => {
-            navigateTracks(1);
+        // Add click handler for library items
+        document.querySelectorAll('.library-item').forEach(item => {
+            item.addEventListener('click', function() {
+                console.log("Clicked:", this.textContent.trim());
+            });
         });
-
-        document.getElementById('prev-track').addEventListener('click', () => {
-            navigateTracks(-1);
-        });
-
-        function navigateTracks(direction) {
-            currentTrackIndex = (currentTrackIndex + direction + tracks.length) % tracks.length;
-            loadTrack(currentTrackIndex);
-        }
-
-        // Touch/swipe handling
-        document.getElementById('player-container').addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            isDragging = true;
-        }, { passive: true });
-
-        document.getElementById('player-container').addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            touchEndX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        document.getElementById('player-container').addEventListener('touchend', () => {
-            if (!isDragging) return;
-            
-            const threshold = 50; // Minimum swipe distance
-            const difference = touchStartX - touchEndX;
-            
-            if (Math.abs(difference) > threshold) {
-                if (difference > 0) {
-                    // Swiped left - next track
-                    navigateTracks(1);
-                } else {
-                    // Swiped right - previous track
-                    navigateTracks(-1);
-                }
-            }
-            
-            isDragging = false;
-        }, { passive: true });
 
         // Keyboard navigation (left/right arrows)
         document.addEventListener('keydown', (e) => {
@@ -587,13 +572,6 @@
             } else if (e.key === 'ArrowLeft') {
                 navigateTracks(-1);
             }
-        });
-
-        // Add click handler for library items
-        document.querySelectorAll('.library-item').forEach(item => {
-            item.addEventListener('click', function() {
-                console.log("Clicked:", this.textContent.trim());
-            });
         });
     </script>
 </body>
