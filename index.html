@@ -186,17 +186,19 @@
         }
 
         /* Library items */
-        .library-item {
+         .library-item {
             display: flex;
             align-items: center;
-            width:90%;
             padding: 15px;
+            width: 1150px;
             margin-bottom: 12px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            touch-action: none;
         }
+
 
         .library-item:hover {
             background-color: rgba(255, 255, 255, 0.2);
@@ -339,13 +341,31 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--primary-purple);
+            background: #121212;
             border-radius: 10px;
+            transition: 0.3s ease;
         }
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-purple);
         }
+
+          @media (max-width:700px) {
+
+            .library-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            width: 310px;
+            margin-bottom: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: none;
+        }
+
+    }
     </style>
 </head>
 <body>
