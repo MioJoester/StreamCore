@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamCore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <style>
         :root {
             --primary-purple: #8a2be2;
@@ -64,20 +63,20 @@
 
         #searchbar {
             align-items: center;
-            justify-content: center;
+           
             flex-direction: row;
             display: flex;
             height: 60px;
             margin-top: 20px;
             width: 100%;
             background-color: transparent;
-            padding: 10px;
+            padding: 5px;
             box-sizing: border-box;
         }
 
         #search {
             height: 35px;
-            width: 300px;
+            width: 260px;
             border: none;
             border-radius: 21px;
             font-family: 'Poppins', sans-serif;
@@ -95,7 +94,7 @@
         }
 
         #div-leaver {
-            width: 20px;
+            width: 10px;
         }
 
         #glass {
@@ -118,7 +117,7 @@
             transform: scale(1.05);
         }
 
-        /* Player container with swipe area */
+        /* Player container */
         #player-container {
             position: relative;
             height: 700px;
@@ -130,7 +129,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* Swipeable content sections */
+        /* Content sections */
         .content-section {
             position: absolute;
             top: 0;
@@ -138,65 +137,54 @@
             width: 100%;
             height: 100%;
             display: none;
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform;
         }
 
         #home-content {
             display: block;
         }
 
-        /* Swipe indicators */
-        .swipe-indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+        /* Control Panel */
+        #control-panel {
             display: flex;
-            gap: 8px;
-            z-index: 5;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 50px;
+            width: 350px;
+            backdrop-filter: blur(5px);
+            
         }
 
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
+        .control-btn {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
         }
 
-        .indicator-dot.active {
-            background-color: var(--light-purple);
-            transform: scale(1.2);
+        .control-btn:hover {
+            background: var(--accent-purple);
+            transform: scale(1.1);
         }
 
-        /* Swipe animation classes */
-        .swipe-left {
-            transform: translateX(-100%);
-            opacity: 0;
+        .control-btn:active {
+            transform: scale(0.95);
         }
 
-        .swipe-right {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-
-        .swipe-from-right {
-            animation: swipeFromRight 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .swipe-from-left {
-            animation: swipeFromLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        @keyframes swipeFromRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes swipeFromLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .control-btn.active {
+            transform: scale(0.9);
+            background: var(--dark-purple);
         }
 
         /* Library and profile sections */
@@ -277,7 +265,7 @@
             width: 100%;
             background-color: rgba(0, 0, 0, 0.3);
             color: var(--text-light);
-            margin-top: 29px;
+            margin-top: 20px;
             font-size: x-large;
             backdrop-filter: blur(5px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -323,6 +311,7 @@
             border: none;
             pointer-events: auto;
             border-radius: 21px;
+            
         }
 
         /* Scrollbar styling */
@@ -346,6 +335,8 @@
     </style>
 </head>
 <body>
+
+    <center>
     <div id="splash-screen">
         <i class="fas fa-headphones splash-icon"></i>
     </div>
@@ -357,15 +348,8 @@
             <button id="glass"><i class="fas fa-search"></i></button>
         </div>
 
-        <!-- Player container with swipe area -->
+        <!-- Player container -->
         <div id="player-container">
-            <!-- Swipe indicators -->
-            <div class="swipe-indicator">
-                <div class="indicator-dot active" data-index="0"></div>
-                <div class="indicator-dot" data-index="1"></div>
-                <div class="indicator-dot" data-index="2"></div>
-            </div>
-
             <!-- Home Content (with SoundCloud embed) -->
             <div id="home-content" class="content-section">
                 <iframe 
@@ -375,10 +359,10 @@
                     scrolling="no" 
                     frameborder="no" 
                     allow="autoplay" 
-                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/835850782&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1900636635&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
                 </iframe>
             </div>
-
+            <!--  https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1900636635&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true -->
             <!-- Library Content -->
             <div id="library-content" class="content-section">
                 <h3 style="margin-left: 15px; color: var(--light-purple);">Your Library</h3>
@@ -435,6 +419,17 @@
             </div>
         </div>
 
+        <!-- Control Panel -->
+        <div id="control-panel">
+            <button class="control-btn" id="prev-btn">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="control-btn" id="next-btn">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+
+        <!-- Navigation -->
         <div id="native-control-layout">
             <i class="fas fa-home nav-icon active" data-target="home-content"></i>
             <i class="fas fa-list nav-icon" data-target="library-content"></i>
@@ -445,13 +440,13 @@
     <script>
         // Track list with different SoundCloud embeds
         const tracks = [
-            "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/835850782&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
-            "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293528565&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
-            "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1031569726&color=%232b3138&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            "https://api.soundcloud.com/playlists/1900636635", // Track 1
+            "https://api.soundcloud.com/tracks/293528565", // Track 2
+            "https://api.soundcloud.com/tracks/1031569726" // Track 3
         ];
 
         let currentTrackIndex = 0;
-        let isAnimating = false;
+        let widget = null;
 
         // Initialize the app after splash screen
         window.addEventListener('load', function() {
@@ -462,9 +457,10 @@
                 setTimeout(function() {
                     document.getElementById('splash-screen').remove();
                     initializePlayer();
-                    setupSwipeControls();
+                    setupNavigationControls();
+                    setupLibraryItems();
                 }, 500);
-            }, 3000);
+            }, 1500);
         });
 
         function initializePlayer() {
@@ -472,107 +468,154 @@
             const script = document.createElement('script');
             script.src = 'https://w.soundcloud.com/player/api.js';
             script.async = true;
-            document.body.appendChild(script);
             
-            // Initialize first track
-            loadTrack(currentTrackIndex);
+            script.onload = function() {
+                // Initialize widget
+                widget = SC.Widget(document.getElementById('player-iframe'));
+                widget.bind(SC.Widget.Events.READY, function() {
+                    console.log("Player is ready");
+                });
+                
+                // Setup control panel buttons
+                document.getElementById('prev-btn').addEventListener('click', prevTrack);
+                document.getElementById('next-btn').addEventListener('click', nextTrack);
+                
+                // Keyboard controls
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowLeft') prevTrack();
+                    if (e.key === 'ArrowRight') nextTrack();
+                });
+            };
+            
+            document.body.appendChild(script);
         }
 
         function loadTrack(index) {
-            if (isAnimating) return;
+            // Validate index
+            if (index < 0) index = tracks.length - 1;
+            if (index >= tracks.length) index = 0;
             
-            const iframe = document.getElementById('player-iframe');
-            iframe.src = tracks[index];
+            currentTrackIndex = index;
             
-            // Update indicators
-            document.querySelectorAll('.indicator-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
+            // Create new iframe with the selected track
+            const iframeContainer = document.getElementById('home-content');
+            const oldIframe = document.getElementById('player-iframe');
             
-            // Reinitialize the SoundCloud widget
-            const widget = SC.Widget(iframe);
+            // Create new iframe
+            const newIframe = document.createElement('iframe');
+            newIframe.id = 'player-iframe';
+            newIframe.width = '100%';
+            newIframe.height = '100%';
+            newIframe.scrolling = 'no';
+            newIframe.frameborder = 'no';
+            newIframe.allow = 'autoplay';
+            newIframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(tracks[index])}&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`;
+            
+
+            //https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1900636635&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true
+            // Replace the iframe
+            iframeContainer.removeChild(oldIframe);
+            iframeContainer.appendChild(newIframe);
+            
+            // Reinitialize the widget
+            widget = SC.Widget(newIframe);
             widget.bind(SC.Widget.Events.READY, function() {
-                console.log("Track loaded:", index);
+                console.log(`Now playing track ${index + 1}`);
             });
         }
 
-        function setupSwipeControls() {
-            const playerContainer = document.getElementById('player-container');
-            const hammer = new Hammer(playerContainer);
+        function prevTrack() {
+            const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            loadTrack(newIndex);
             
-            // Enable horizontal swipe recognition
-            hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
-            
-            // Swipe left handler (next track)
-            hammer.on('swipeleft', function() {
-                if (isAnimating) return;
-                navigateTracks(1);
-            });
-            
-            // Swipe right handler (previous track)
-            hammer.on('swiperight', function() {
-                if (isAnimating) return;
-                navigateTracks(-1);
-            });
+            // Add visual feedback
+            const btn = document.getElementById('prev-btn');
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 200);
         }
 
-        function navigateTracks(direction) {
-            if (isAnimating) return;
-            isAnimating = true;
+        function nextTrack() {
+            const newIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(newIndex);
             
-            const currentContent = document.getElementById('home-content');
-            const newIndex = (currentTrackIndex + direction + tracks.length) % tracks.length;
-            
-            // Apply swipe animation to current content
-            currentContent.classList.add(direction === 1 ? 'swipe-left' : 'swipe-right');
-            
-            setTimeout(() => {
-                // Load new track
-                currentTrackIndex = newIndex;
-                loadTrack(currentTrackIndex);
-                
-                // Reset animation classes
-                currentContent.classList.remove('swipe-left', 'swipe-right');
-                currentContent.classList.add(direction === 1 ? 'swipe-from-right' : 'swipe-from-left');
-                
-                // Remove animation class after transition
-                setTimeout(() => {
-                    currentContent.classList.remove('swipe-from-right', 'swipe-from-left');
-                    isAnimating = false;
-                }, 400);
-            }, 100);
+            // Add visual feedback
+            const btn = document.getElementById('next-btn');
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 200);
         }
 
-        // Navigation click handler
-        document.querySelectorAll('.nav-icon').forEach(icon => {
-            icon.addEventListener('click', function() {
-                document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.style.display = 'none';
+        function setupNavigationControls() {
+            // Bottom navigation controls
+            document.querySelectorAll('.nav-icon').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    // Update active state
+                    document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show the selected section
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    const target = this.getAttribute('data-target');
+                    document.getElementById(target).style.display = 'block';
                 });
-                
-                const target = this.getAttribute('data-target');
-                document.getElementById(target).style.display = 'block';
             });
-        });
+        }
 
-        // Add click handler for library items
-        document.querySelectorAll('.library-item').forEach(item => {
-            item.addEventListener('click', function() {
-                console.log("Clicked:", this.textContent.trim());
+        function setupLibraryItems() {
+            // Library item click handlers
+            document.querySelectorAll('.library-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const itemText = this.textContent.trim();
+                    console.log("Selected:", itemText);
+                    
+                    // You can add specific functionality for each item here
+                    switch(itemText) {
+                        case "Liked Songs":
+                            // Load liked songs playlist
+                            break;
+                        case "Favorites":
+                            // Load favorites
+                            break;
+                        // Add cases for other items
+                    }
+                });
             });
-        });
+        }
 
-        // Keyboard navigation (left/right arrows)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') {
-                navigateTracks(1);
-            } else if (e.key === 'ArrowLeft') {
-                navigateTracks(-1);
+        // Search functionality
+        document.getElementById('glass').addEventListener('click', function() {
+            const query = document.getElementById('search').value.trim();
+            if (query) {
+                console.log("Searching for:", query);
+                // Implement search functionality here
             }
         });
+
+        // Optional: Play/pause controls
+        function playCurrentTrack() {
+            if (widget) {
+                widget.play();
+            }
+        }
+
+        function pauseCurrentTrack() {
+            if (widget) {
+                widget.pause();
+            }
+        }
+
+        function getCurrentTrackInfo() {
+            if (widget) {
+                widget.getCurrentSound(function(sound) {
+                    console.log("Current track info:", sound);
+                    return sound;
+                });
+            }
+            return null;
+        }
     </script>
+    </center>
 </body>
 </html>
