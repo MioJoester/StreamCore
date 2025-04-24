@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            --primary-purple: #8a2be2;
-            --dark-purple: #4b0082;
+            --primary-purple: #121212;
+            --dark-purple: #121212;
             --light-purple: #b19cd9;
             --accent-purple: #9370db;
             --text-light: #f8f8ff;
@@ -16,7 +16,7 @@
         }
 
         body {
-            background-color:var(--dark-purple);
+            background-color:#121212;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -144,9 +144,9 @@ button, input, textarea, [contenteditable] {
             margin-top: 20px;
             width: 90%;
             margin-left: 19px;
-            border-radius: 21px;
+            border-radius: 3px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+           
         }
 
         /* Content sections */
@@ -212,8 +212,11 @@ button, input, textarea, [contenteditable] {
         #library-content, #profile-content {
             overflow-y: auto;
             padding: 15px;
+            width: 96%;
+            height: 100%;
             backdrop-filter: blur(5px);
             background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 21px;
         }
 
         /* Library items */
@@ -247,7 +250,7 @@ button, input, textarea, [contenteditable] {
             align-items: center;
             margin-bottom: 30px;
             padding: 15px;
-            background: linear-gradient(to right, var(--primary-purple), rgba(0,0,0,0));
+            background: linear-gradient(to right, var(--accent-purple), rgba(0,0,0,0));
             border-radius: 15px;
         }
 
@@ -327,11 +330,10 @@ button, input, textarea, [contenteditable] {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+          
             border: none;
             pointer-events: auto;
-            border-radius: 21px;
+            border-radius: 3px;
             
         }
 
@@ -373,15 +375,7 @@ button, input, textarea, [contenteditable] {
         <div id="player-container">
             <!-- Home Content (with SoundCloud embed) -->
             <div id="home-content" class="content-section">
-                <iframe 
-                    id="player-iframe"
-                    width="100%" 
-                    height="100%" 
-                    scrolling="no" 
-                    frameborder="no" 
-                    allow="autoplay" 
-                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/284387217&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-                </iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0CS9yt0YCy4upuO91dRZ8n?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
             <!--  https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1900636635&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true -->
             <!-- Library Content -->
@@ -461,15 +455,9 @@ button, input, textarea, [contenteditable] {
     <script>
         // Track list with different SoundCloud embeds
         //tracks/284387217
-        const tracks = [
-            "https://api.soundcloud.com/playlists/1873126895", // Track 1
-            "https://api.soundcloud.com/tracks/2077740452", // Track 2
-            "https://api.soundcloud.com/tracks/1031569726" // Track 3
-        ];
-
-        let currentTrackIndex = 0;
-        let widget = null;                                                                                                      
-
+      
+      
+      
         // Initialize the app after splash screen
         window.addEventListener('load', function() {
             setTimeout(function() {
@@ -485,86 +473,81 @@ button, input, textarea, [contenteditable] {
             }, 1500);
         });
 
-        function initializePlayer() {
-            // Load SoundCloud Widget API
-            const script = document.createElement('script');
-            script.src = 'https://w.soundcloud.com/player/api.js';
-            script.async = true;
-            
-            script.onload = function() {
-                // Initialize widget
-                widget = SC.Widget(document.getElementById('player-iframe'));
-                widget.bind(SC.Widget.Events.READY, function() {
-                    console.log("Player is ready");
-                });
-                
-                // Setup control panel buttons
-                document.getElementById('prev-btn').addEventListener('click', prevTrack);
-                document.getElementById('next-btn').addEventListener('click', nextTrack);
-                
-                // Keyboard controls
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') prevTrack();
-                    if (e.key === 'ArrowRight') nextTrack();
-                });
-            };
-            
-            document.body.appendChild(script);
-        }
+        
+  const tracks = [
+    '0CS9yt0YCy4upuO91dRZ8n',
+    '5HCyWlXZPP0y6Gqq8TgA20',
+    '7dt6x5M1jzdTEt8oCbisTK'
+  ];
 
-        function loadTrack(index) {
-            // Validate index
-            if (index < 0) index = tracks.length - 1;
-            if (index >= tracks.length) index = 0;
-            
-            currentTrackIndex = index;
-            
-            // Create new iframe with the selected track
-            const iframeContainer = document.getElementById('home-content');
-            const oldIframe = document.getElementById('player-iframe');
-            
-            // Create new iframe
-            const newIframe = document.createElement('iframe');
-            newIframe.id = 'player-iframe';
-            newIframe.width = '100%';
-            newIframe.height = '100%';
-            newIframe.scrolling = 'no';
-            newIframe.frameborder = 'no';
-            newIframe.allow = 'autoplay';
-            newIframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(tracks[index])}&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`;
-            
+  let currentTrackIndex = 0;
 
-            //https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1900636635&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true
-            // Replace the iframe
-            iframeContainer.removeChild(oldIframe);
-            iframeContainer.appendChild(newIframe);
-            
-            // Reinitialize the widget
-            widget = SC.Widget(newIframe);
-            widget.bind(SC.Widget.Events.READY, function() {
-                console.log(`Now playing track ${index + 1}`);
-            });
-        }
+  function initializePlayer() {
+    // Setup control panel buttons
+    document.getElementById('prev-btn').addEventListener('click', prevTrack);
+    document.getElementById('next-btn').addEventListener('click', nextTrack);
 
-        function prevTrack() {
-            const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-            loadTrack(newIndex);
-            
-            // Add visual feedback
-            const btn = document.getElementById('prev-btn');
-            btn.classList.add('active');
-            setTimeout(() => btn.classList.remove('active'), 200);
-        }
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') prevTrack();
+      if (e.key === 'ArrowRight') nextTrack();
+    });
 
-        function nextTrack() {
-            const newIndex = (currentTrackIndex + 1) % tracks.length;
-            loadTrack(newIndex);
-            
-            // Add visual feedback
-            const btn = document.getElementById('next-btn');
-            btn.classList.add('active');
-            setTimeout(() => btn.classList.remove('active'), 200);
-        }
+    // Load first track
+    loadTrack(currentTrackIndex);
+  }
+
+  function loadTrack(index) {
+    if (index < 0) index = tracks.length - 1;
+    if (index >= tracks.length) index = 0;
+
+    currentTrackIndex = index;
+
+    const iframeContainer = document.getElementById('home-content');
+    const oldIframe = document.getElementById('player-iframe');
+    if (oldIframe) {
+      iframeContainer.removeChild(oldIframe);
+    }
+
+    const trackId = tracks[index];
+    const embedUrl = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator`;
+
+    const newIframe = document.createElement('iframe');
+    newIframe.id = 'player-iframe';
+    newIframe.src = embedUrl;
+    newIframe.width = '100%';
+    newIframe.height = '700';
+    newIframe.style.border = 'none';
+    newIframe.style.borderRadius = '0';
+    newIframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+    newIframe.loading = 'lazy';
+    newIframe.frameBorder = '0';
+
+    iframeContainer.appendChild(newIframe);
+    console.log(`Now playing Spotify track ${index + 1}`);
+  }
+
+  function prevTrack() {
+    const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+    loadTrack(newIndex);
+    flashButton('prev-btn');
+  }
+
+  function nextTrack() {
+    const newIndex = (currentTrackIndex + 1) % tracks.length;
+    loadTrack(newIndex);
+    flashButton('next-btn');
+  }
+
+  function flashButton(id) {
+    const btn = document.getElementById(id);
+    btn.classList.add('active');
+    setTimeout(() => btn.classList.remove('active'), 200);
+  }
+
+  // Start player logic
+  initializePlayer();
+
 
         function setupNavigationControls() {
             // Bottom navigation controls
@@ -647,8 +630,13 @@ button, input, textarea, [contenteditable] {
         function toggleBackground() {
       const currentColor = document.body.style.backgroundColor;
       document.body.style.backgroundColor = 
-        (currentColor === 'rgb(0, 0, 0)' || currentColor === '#000') ? '#4b0082' : '#000';
+        (currentColor === 'rgb(0, 0, 0)' || currentColor === '#000') ? '#121212' : '#000';
     }
+
+
+
+
+    
 
 
         
