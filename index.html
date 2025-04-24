@@ -16,7 +16,7 @@
         }
 
         body {
-            background-color:#000;
+            background-color:var(--dark-purple);
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -24,6 +24,26 @@
             touch-action: pan-y;
             overflow-x: hidden;
         }
+
+
+        /* Remove tap highlights on all elements */
+* {
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Specifically for buttons and inputs to maintain functionality */
+button, input, textarea, [contenteditable] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
 
         #splash-screen {
             position: fixed;
@@ -148,13 +168,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 100px;
-            margin-left: 20px;
+            gap: 160px;
+         
             margin-top: 30px;
             height: 45px;
             background-color: transparent;
            
-            width: 350px;
+            width: 100%;
             backdrop-filter: blur(5px);
             
         }
@@ -260,7 +280,7 @@
         #native-control-layout {
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
+            justify-content:space-evenly;
             flex-direction: row;
             height: 85px;
             width: 100%;
@@ -409,9 +429,9 @@
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </div>
-                <div class="library-item">
+                <div class="library-item" onclick="toggleBackground()">
                     <i class="fas fa-moon"></i>
-                    <span>Dark Mode</span>
+                    <span>Dark mode</span>
                 </div>
                 <div class="library-item">
                     <i class="fas fa-sign-out-alt"></i>
@@ -440,14 +460,15 @@
 
     <script>
         // Track list with different SoundCloud embeds
+        //tracks/284387217
         const tracks = [
             "https://api.soundcloud.com/playlists/1873126895", // Track 1
-            "https://api.soundcloud.com/tracks/293528565", // Track 2
+            "https://api.soundcloud.com/tracks/2077740452", // Track 2
             "https://api.soundcloud.com/tracks/1031569726" // Track 3
         ];
 
         let currentTrackIndex = 0;
-        let widget = null;
+        let widget = null;                                                                                                      
 
         // Initialize the app after splash screen
         window.addEventListener('load', function() {
@@ -616,7 +637,24 @@
             }
             return null;
         }
+
+        document.getElementById("dm").onclick; {
+            document.body.style.backgroundColor = white;
+        }
+
+
+
+        function toggleBackground() {
+      const currentColor = document.body.style.backgroundColor;
+      document.body.style.backgroundColor = 
+        (currentColor === 'rgb(0, 0, 0)' || currentColor === '#000') ? '#4b0082' : '#000';
+    }
+
+
+        
     </script>
     </center>
 </body>
+
+<!-- <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2077740452&color=%233f408f&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/user-540782345" title="jack" target="_blank" style="color: #cccccc; text-decoration: none;">jack</a> · <a href="https://soundcloud.com/user-540782345/love-space-tatsuro-yamashita" title="Love Space - Tatsuro Yamashita" target="_blank" style="color: #cccccc; text-decoration: none;">Love Space - Tatsuro Yamashita</a></div> -->
 </html>
