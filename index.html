@@ -15,35 +15,34 @@
             --text-dark: #1a1a1a;
         }
 
-        body {
-            background-color:#121212;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            tap-highlight-color: transparent;
+            outline: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        button, input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        body {
+            background-color: var(--dark-purple);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-light);
             touch-action: pan-y;
             overflow-x: hidden;
+            height: 100vh;
         }
-
-
-        /* Remove tap highlights on all elements */
-* {
-    -webkit-tap-highlight-color: transparent;
-    tap-highlight-color: transparent;
-    outline: none;
-    -webkit-user-select: none;
-    -moz-user-select: none; 
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* Specifically for buttons and inputs to maintain functionality */
-button, input, textarea, [contenteditable] {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-}
 
         #splash-screen {
             position: fixed;
@@ -81,109 +80,164 @@ button, input, textarea, [contenteditable] {
             background-color: transparent;
         }
 
-        #searchbar {
-            align-items: center;
-           
-            flex-direction: row;
-            display: flex;
-            height: 60px;
-            margin-top: 30px;
-            width: 100%;
-            background-color: transparent;
-            padding: 5px;
-            box-sizing: border-box;
+        /* Section styling */
+        .content-section {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 70px; /* Space for bottom nav */
         }
 
-        #search {
-            height: 35px;
-            width: 260px;
+        .content-section.active {
+            display: flex;
+        }
+
+        /* Home Section */
+        #home-section {
+            align-items: center;
+        }
+
+        #search-container {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #searchbar {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #search-input {
+            height: 40px;
+            flex-grow: 1;
             border: none;
-            border-radius: 21px;
+            border-radius: 20px;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
-            font-size: medium;
-            padding: 0 15px;
-            margin-left: 20px;
-            background-color: rgba(255, 255, 255, 0.2);
+            font-size: 16px;
+            padding: 0 20px;
+            background-color: rgba(255, 255, 255, 0.1);
             color: var(--text-light);
-            outline: none;
+            transition: all 0.3s ease;
         }
 
-        #search::placeholder {
+        #search-input:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #search-input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
 
-        #div-leaver {
-            width: 10px;
-        }
-
-        #glass {
+        #search-button {
+            height: 40px;
+            width: 40px;
+            border: none;
+            border-radius: 50%;
+            background: var(--accent-purple);
+            color: var(--text-light);
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 35px;
-            width: 35px;
-            border: none;
-            border-radius: 50%;
-            background: var(--primary-purple);
-            color: var(--text-light);
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        #glass:hover {
-            background: var(--accent-purple);
+        #search-button:hover {
             transform: scale(1.05);
         }
 
-        /* Player container */
+        #search-results-container {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            right: 20px;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 10px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-result {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-result:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-result i {
+            margin-right: 10px;
+            color: var(--light-purple);
+        }
+
+        .search-result .track-info {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .search-result .track-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+
+        .search-result .track-artist {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         #player-container {
             position: relative;
-            height: 700px;
-            margin-top: 20px;
             width: 90%;
-            margin-left: 19px;
-            border-radius: 3px;
+            max-width: 500px;
+            height: 300px;
+            margin: 20px;
+            border-radius: 10px;
             overflow: hidden;
-           
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* Content sections */
-        .content-section {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #player-iframe {
             width: 100%;
             height: 100%;
-            display: none;
+            border: none;
         }
 
-        #home-content {
-            display: block;
-        }
-
-        /* Control Panel */
         #control-panel {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 160px;
-         
-            margin-top: 30px;
-            height: 45px;
-            background-color: transparent;
-           
-            width: 100%;
-            backdrop-filter: blur(5px);
-            
+            gap: 40px;
+            margin: 20px 0;
         }
 
         .control-btn {
-            width: 30px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: var(--primary-purple);
+            background: var(--accent-purple);
             color: white;
             border: none;
             display: flex;
@@ -191,121 +245,148 @@ button, input, textarea, [contenteditable] {
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 18px;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .control-btn:hover {
-            background: var(--accent-purple);
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .control-btn:active {
             transform: scale(0.95);
         }
 
-        .control-btn.active {
-            transform: scale(0.9);
-            background: var(--dark-purple);
+        /* Search Section */
+        #search-section {
+            padding: 20px;
         }
 
-        /* Library and profile sections */
-        #library-content, #profile-content {
-            overflow-y: auto;
-            padding: 15px;
-            width: 96%;
-            height: 100%;
-            backdrop-filter: blur(5px);
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 21px;
+        .search-section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--light-purple);
         }
 
-        /* Library items */
+        /* Library Section */
+        #library-section {
+            padding: 20px;
+        }
+
+        .library-section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--light-purple);
+        }
+
         .library-item {
             display: flex;
             align-items: center;
             padding: 15px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .library-item:hover {
             background-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
         }
 
         .library-item i {
             margin-right: 15px;
             font-size: 20px;
             color: var(--light-purple);
-            min-width: 25px;
-            text-align: center;
         }
 
-        /* Profile section */
+        /* Profile Section */
+        #profile-section {
+            padding: 20px;
+            align-items: center;
+        }
+
         .profile-header {
             display: flex;
+            flex-direction: column;
             align-items: center;
             margin-bottom: 30px;
-            padding: 15px;
-            background: linear-gradient(to right, var(--accent-purple), rgba(0,0,0,0));
-            border-radius: 15px;
+            width: 100%;
         }
 
         .profile-avatar {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary-purple), var(--accent-purple));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
-            font-size: 30px;
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+            font-size: 40px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
         }
 
-        .profile-info h2 {
-            margin: 0;
+        .profile-name {
             font-size: 22px;
             font-weight: 600;
+            margin-bottom: 5px;
         }
 
-        .profile-info p {
-            margin: 5px 0 0;
-            color: var(--light-purple);
+        .profile-status {
             font-size: 14px;
+            color: var(--light-purple);
         }
 
-        /* Navigation */
+        .profile-item {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-item i {
+            margin-right: 15px;
+            font-size: 20px;
+            color: var(--light-purple);
+        }
+
+        /* Bottom Navigation */
         #native-control-layout {
             display: flex;
             align-items: center;
-            justify-content:space-evenly;
-            flex-direction: row;
-            height: 85px;
+            justify-content: space-around;
+            height: 70px;
             width: 100%;
             background-color: rgba(0, 0, 0, 0.3);
-            color: var(--text-light);
-            margin-top: 9px;
-            font-size:  large;
+            position: fixed;
+            bottom: 0;
             backdrop-filter: blur(5px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-icon {
             cursor: pointer;
-            padding: 12px;
+            padding: 10px;
             transition: all 0.3s ease;
             border-radius: 50%;
             position: relative;
+            font-size: 20px;
         }
 
         .nav-icon.active {
             color: var(--light-purple);
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         .nav-icon.active::after {
@@ -320,329 +401,351 @@ button, input, textarea, [contenteditable] {
             background-color: var(--light-purple);
         }
 
-        .nav-icon:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--accent-purple);
+        /* Utility classes */
+        .spinner {
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: block;
+            font-size: 24px;
+            color: var(--light-purple);
         }
 
-        /* Player iframe */
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-          
-            border: none;
-            pointer-events: auto;
-            border-radius: 3px;
-            
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-purple);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-purple);
+        .no-results {
+            padding: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
 <body>
-
-    <center>
     <div id="splash-screen">
         <i class="fas fa-headphones splash-icon"></i>
     </div>
 
     <div id="all-content">
-        <div id="searchbar">
-            <input type="text" id="search" placeholder="Search songs, artists...">
-            <div id="div-leaver"></div>
-            <button id="glass"><i class="fas fa-search"></i></button>
-        </div>
-
-        <!-- Player container -->
-        <div id="player-container">
-            <!-- Home Content (with SoundCloud embed) -->
-            <div id="home-content" class="content-section">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0CS9yt0YCy4upuO91dRZ8n?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <!--  https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1900636635&color=%23b9a48e&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true -->
-            <!-- Library Content -->
-            <div id="library-content" class="content-section">
-                <h3 style="margin-left: 15px; color: var(--light-purple);">Your Library</h3>
-                <div class="library-item">
-                    <i class="fas fa-heart"></i>
-                    <span>Liked Songs</span>
+        <!-- Home Section -->
+        <section id="home-section" class="content-section active">
+            <div id="search-container">
+                <div id="searchbar">
+                    <input type="text" id="search-input" placeholder="Search songs, artists...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
                 </div>
-                <div class="library-item">
-                    <i class="fas fa-star"></i>
-                    <span>Favorites</span>
-                </div>
-                <div class="library-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Recently Played</span>
-                </div>
-                <div class="library-item">
-                    <i class="fas fa-music"></i>
-                    <span>Playlists</span>
-                </div>
-                <div class="library-item">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Create New</span>
-                </div>
+                <div id="search-results-container"></div>
             </div>
 
-            <!-- Profile Content -->
-            <div id="profile-content" class="content-section">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="profile-info">
-                        <h2>Music Lover</h2>
-                        <p>Premium Member</p>
-                        <p>128 Followers</p>
-                    </div>
-                </div>
-                <div class="library-item">
-                    <i class="fas fa-user-edit"></i>
-                    <span>Edit Profile</span>
-                </div>
-                <div class="library-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </div>
-                <div class="library-item" onclick="toggleBackground()">
-                    <i class="fas fa-moon"></i>
-                    <span>Dark mode</span>
-                </div>
-                <div class="library-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Log Out</span>
-                </div>
+            <div id="player-container">
+                <iframe id="player-iframe" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/284387217&color=%233f408f&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
             </div>
-        </div>
 
-        <!-- Control Panel -->
-        <div id="control-panel">
-            <button class="control-btn" id="prev-btn">
-                <i class="fas fa-step-backward"></i>
-            </button>
-            <button class="control-btn" id="next-btn">
-                <i class="fas fa-step-forward"></i>
-            </button>
-        </div>
+            <div id="control-panel">
+                <button class="control-btn" id="prev-btn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn" id="play-btn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="next-btn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+        </section>
 
-        <!-- Navigation -->
-        <div id="native-control-layout">
-            <i class="fas fa-home nav-icon active" data-target="home-content"></i>
-            <i class="fas fa-list nav-icon" data-target="library-content"></i>
-            <i class="fas fa-user nav-icon" data-target="profile-content"></i>
-        </div>
+        <!-- Search Section -->
+        <section id="search-section" class="content-section">
+            <h2 class="search-section-title">Search</h2>
+            <div style="padding: 20px; text-align: center;">
+                <p>Use the search bar in the Home section to find music</p>
+            </div>
+        </section>
+
+        <!-- Library Section -->
+        <section id="library-section" class="content-section">
+            <h2 class="library-section-title">Your Library</h2>
+            <div class="library-item">
+                <i class="fas fa-heart"></i>
+                <span>Liked Songs</span>
+            </div>
+            <div class="library-item">
+                <i class="fas fa-star"></i>
+                <span>Favorites</span>
+            </div>
+            <div class="library-item">
+                <i class="fas fa-clock"></i>
+                <span>Recently Played</span>
+            </div>
+            <div class="library-item">
+                <i class="fas fa-music"></i>
+                <span>Playlists</span>
+            </div>
+            <div class="library-item">
+                <i class="fas fa-plus-circle"></i>
+                <span>Create New</span>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="content-section">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2 class="profile-name">Music Lover</h2>
+                <p class="profile-status">Premium Member</p>
+            </div>
+
+            <div class="profile-item">
+                <i class="fas fa-user-edit"></i>
+                <span>Edit Profile</span>
+            </div>
+            <div class="profile-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+            <div class="profile-item" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </div>
+            <div class="profile-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log Out</span>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <nav id="native-control-layout">
+            <i class="fas fa-home nav-icon active" data-target="home-section"></i>
+            <i class="fas fa-search nav-icon" data-target="search-section"></i>
+            <i class="fas fa-music nav-icon" data-target="library-section"></i>
+            <i class="fas fa-user nav-icon" data-target="profile-section"></i>
+        </nav>
     </div>
 
     <script>
-        // Track list with different SoundCloud embeds
-        //tracks/284387217
-      
-      
-      
-        // Initialize the app after splash screen
-        window.addEventListener('load', function() {
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show splash screen for 1.5 seconds
             setTimeout(function() {
                 document.getElementById('splash-screen').style.opacity = '0';
-                document.getElementById('all-content').style.display = 'flex';
-                
                 setTimeout(function() {
-                    document.getElementById('splash-screen').remove();
-                    initializePlayer();
-                    setupNavigationControls();
-                    setupLibraryItems();
+                    document.getElementById('splash-screen').style.display = 'none';
+                    document.getElementById('all-content').style.display = 'flex';
                 }, 500);
             }, 1500);
+
+            // Initialize player and controls
+            setupPlayer();
+            setupSearch();
+            setupControls();
+            setupNavigation();
         });
 
-        
-  const tracks = [
-    '0CS9yt0YCy4upuO91dRZ8n',
-    '5HCyWlXZPP0y6Gqq8TgA20',
-    '7dt6x5M1jzdTEt8oCbisTK'
-  ];
+        // Player variables
+        let widget;
+        let currentTrackUrl = 'https://api.soundcloud.com/tracks/284387217';
+        let searchResults = [];
 
-  let currentTrackIndex = 0;
-
-  function initializePlayer() {
-    // Setup control panel buttons
-    document.getElementById('prev-btn').addEventListener('click', prevTrack);
-    document.getElementById('next-btn').addEventListener('click', nextTrack);
-
-    // Keyboard controls
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'ArrowLeft') prevTrack();
-      if (e.key === 'ArrowRight') nextTrack();
-    });
-
-    // Load first track
-    loadTrack(currentTrackIndex);
-  }
-
-  function loadTrack(index) {
-    if (index < 0) index = tracks.length - 1;
-    if (index >= tracks.length) index = 0;
-
-    currentTrackIndex = index;
-
-    const iframeContainer = document.getElementById('home-content');
-    const oldIframe = document.getElementById('player-iframe');
-    if (oldIframe) {
-      iframeContainer.removeChild(oldIframe);
-    }
-
-    const trackId = tracks[index];
-    const embedUrl = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator`;
-
-    const newIframe = document.createElement('iframe');
-    newIframe.id = 'player-iframe';
-    newIframe.src = embedUrl;
-    newIframe.width = '100%';
-    newIframe.height = '700';
-    newIframe.style.border = 'none';
-    newIframe.style.borderRadius = '0';
-    newIframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-    newIframe.loading = 'lazy';
-    newIframe.frameBorder = '0';
-
-    iframeContainer.appendChild(newIframe);
-    console.log(`Now playing Spotify track ${index + 1}`);
-  }
-
-  function prevTrack() {
-    const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-    loadTrack(newIndex);
-    flashButton('prev-btn');
-  }
-
-  function nextTrack() {
-    const newIndex = (currentTrackIndex + 1) % tracks.length;
-    loadTrack(newIndex);
-    flashButton('next-btn');
-  }
-
-  function flashButton(id) {
-    const btn = document.getElementById(id);
-    btn.classList.add('active');
-    setTimeout(() => btn.classList.remove('active'), 200);
-  }
-
-  // Start player logic
-  initializePlayer();
-
-
-        function setupNavigationControls() {
-            // Bottom navigation controls
-            document.querySelectorAll('.nav-icon').forEach(icon => {
-                icon.addEventListener('click', function() {
-                    // Update active state
-                    document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
+        // Initialize SoundCloud widget
+        function setupPlayer() {
+            const iframe = document.getElementById('player-iframe');
+            iframe.onload = function() {
+                widget = SC.Widget(iframe);
+                
+                widget.bind(SC.Widget.Events.READY, function() {
+                    console.log("Player is ready");
                     
-                    // Show the selected section
-                    document.querySelectorAll('.content-section').forEach(section => {
-                        section.style.display = 'none';
+                    // Update play/pause button state
+                    widget.bind(SC.Widget.Events.PLAY, function() {
+                        document.getElementById('play-btn').innerHTML = '<i class="fas fa-pause"></i>';
                     });
                     
-                    const target = this.getAttribute('data-target');
-                    document.getElementById(target).style.display = 'block';
+                    widget.bind(SC.Widget.Events.PAUSE, function() {
+                        document.getElementById('play-btn').innerHTML = '<i class="fas fa-play"></i>';
+                    });
                 });
-            });
+            };
         }
 
-        function setupLibraryItems() {
-            // Library item click handlers
-            document.querySelectorAll('.library-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const itemText = this.textContent.trim();
-                    console.log("Selected:", itemText);
-                    
-                    // You can add specific functionality for each item here
-                    switch(itemText) {
-                        case "Liked Songs":
-                            // Load liked songs playlist
-                            break;
-                        case "Favorites":
-                            // Load favorites
-                            break;
-                        // Add cases for other items
+        // Load a new track
+        function loadTrack(trackUrl) {
+            currentTrackUrl = trackUrl;
+            const encodedUrl = encodeURIComponent(trackUrl);
+            const iframe = document.getElementById('player-iframe');
+            iframe.src = `https://w.soundcloud.com/player/?url=${encodedUrl}&color=%233f408f&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`;
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const resultsContainer = document.getElementById('search-results-container');
+
+            // Show/hide search results
+            searchInput.addEventListener('focus', function() {
+                if (this.value.trim() !== '' && resultsContainer.innerHTML.trim() !== '') {
+                    resultsContainer.style.display = 'block';
+                }
+            });
+
+            // Hide results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && 
+                    !searchButton.contains(e.target) && 
+                    !resultsContainer.contains(e.target)) {
+                    resultsContainer.style.display = 'none';
+                }
+            });
+
+            // Search when typing (with debounce)
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = this.value.trim();
+                    if (query) {
+                        performSearch(query);
+                    } else {
+                        resultsContainer.style.display = 'none';
+                        resultsContainer.innerHTML = '';
                     }
+                }, 500);
+            });
+
+            // Search on button click
+            searchButton.addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    performSearch(query);
+                }
+            });
+
+            // Perform the search
+            async function performSearch(query) {
+                resultsContainer.innerHTML = '<div class="no-results"><i class="fas fa-spinner spinner"></i> Searching...</div>';
+                resultsContainer.style.display = 'block';
+
+                try {
+                    // Use SoundCloud's search page (since API is unavailable)
+                    const response = await fetch(`https://soundcloud.com/search/sounds?q=${encodeURIComponent(query)}`);
+                    const html = await response.text();
+                    
+                    // Parse the HTML to find tracks
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Find track elements (this selector might need updating if SoundCloud changes their HTML)
+                    const trackElements = Array.from(doc.querySelectorAll('h2[itemprop="name"] a')).filter(a => 
+                        a.href.includes('/') && !a.href.includes('/sets/')
+                    );
+                    
+                    // Extract track info
+                    searchResults = trackElements.slice(0, 5).map(element => {
+                        const title = element.textContent.trim();
+                        const artist = element.closest('article')?.querySelector('a[href^="/"]')?.textContent.trim() || 'Unknown artist';
+                        return {
+                            title: title,
+                            artist: artist,
+                            url: element.href
+                        };
+                    });
+
+                    displayResults(searchResults);
+                } catch (error) {
+                    console.error('Search error:', error);
+                    resultsContainer.innerHTML = '<div class="no-results">Search failed. Please try again.</div>';
+                }
+            }
+
+            // Display search results
+            function displayResults(results) {
+                if (results.length === 0) {
+                    resultsContainer.innerHTML = '<div class="no-results">No results found</div>';
+                    return;
+                }
+
+                resultsContainer.innerHTML = '';
+                results.forEach((result, index) => {
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'search-result';
+                    resultElement.innerHTML = `
+                        <i class="fas fa-music"></i>
+                        <div class="track-info">
+                            <div class="track-title">${result.title}</div>
+                            <div class="track-artist">${result.artist}</div>
+                        </div>
+                    `;
+                    resultElement.addEventListener('click', function() {
+                        // Convert regular URL to API-style URL for embedding
+                        const trackId = result.url.split('/').pop();
+                        const apiUrl = `https://api.soundcloud.com/tracks/${trackId}`;
+                        loadTrack(apiUrl);
+                        searchInput.value = result.title;
+                        resultsContainer.style.display = 'none';
+                    });
+                    resultsContainer.appendChild(resultElement);
+                });
+            }
+        }
+
+        // Setup player controls
+        function setupControls() {
+            document.getElementById('play-btn').addEventListener('click', function() {
+                if (widget) {
+                    widget.toggle();
+                }
+            });
+
+            document.getElementById('prev-btn').addEventListener('click', function() {
+                if (searchResults.length > 0) {
+                    currentTrackIndex = (currentTrackIndex - 1 + searchResults.length) % searchResults.length;
+                    const trackId = searchResults[currentTrackIndex].url.split('/').pop();
+                    loadTrack(`https://api.soundcloud.com/tracks/${trackId}`);
+                }
+            });
+
+            document.getElementById('next-btn').addEventListener('click', function() {
+                if (searchResults.length > 0) {
+                    currentTrackIndex = (currentTrackIndex + 1) % searchResults.length;
+                    const trackId = searchResults[currentTrackIndex].url.split('/').pop();
+                    loadTrack(`https://api.soundcloud.com/tracks/${trackId}`);
+                }
+            });
+        }
+
+        // Setup bottom navigation
+        function setupNavigation() {
+            const navIcons = document.querySelectorAll('.nav-icon');
+            
+            navIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    // Remove active class from all icons
+                    navIcons.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked icon
+                    this.classList.add('active');
+                    
+                    // Get target section ID
+                    const targetSectionId = this.getAttribute('data-target');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    document.getElementById(targetSectionId).classList.add('active');
                 });
             });
         }
 
-        // Search functionality
-        document.getElementById('glass').addEventListener('click', function() {
-            const query = document.getElementById('search').value.trim();
-            if (query) {
-                console.log("Searching for:", query);
-                // Implement search functionality here
-            }
-        });
-
-        // Optional: Play/pause controls
-        function playCurrentTrack() {
-            if (widget) {
-                widget.play();
-            }
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.style.backgroundColor = document.body.style.backgroundColor === 'rgb(0, 0, 0)' ? '#121212' : '#000';
         }
-
-        function pauseCurrentTrack() {
-            if (widget) {
-                widget.pause();
-            }
-        }
-
-        function getCurrentTrackInfo() {
-            if (widget) {
-                widget.getCurrentSound(function(sound) {
-                    console.log("Current track info:", sound);
-                    return sound;
-                });
-            }
-            return null;
-        }
-
-        document.getElementById("dm").onclick; {
-            document.body.style.backgroundColor = white;
-        }
-
-
-
-        function toggleBackground() {
-      const currentColor = document.body.style.backgroundColor;
-      document.body.style.backgroundColor = 
-        (currentColor === 'rgb(0, 0, 0)' || currentColor === '#000') ? '#121212' : '#000';
-    }
-
-
-
-
-    
-
-
-        
     </script>
-    </center>
 </body>
-
-<!-- <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2077740452&color=%233f408f&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/user-540782345" title="jack" target="_blank" style="color: #cccccc; text-decoration: none;">jack</a> · <a href="https://soundcloud.com/user-540782345/love-space-tatsuro-yamashita" title="Love Space - Tatsuro Yamashita" target="_blank" style="color: #cccccc; text-decoration: none;">Love Space - Tatsuro Yamashita</a></div> -->
-</html>
+</html>-
