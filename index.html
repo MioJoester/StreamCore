@@ -209,13 +209,14 @@
         }
 
         #player-container {
-            position: relative;
+            position: flex;
             width: 90%;
             max-width: 500px;
-            height: 300px;
+            height: 700px;
             margin: 20px;
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 21px;
+            background-color: transparent;
+            overflow-x: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
@@ -231,6 +232,7 @@
             align-items: center;
             gap: 40px;
             margin: 20px 0;
+            margin-top: 10px;
         }
 
         .control-btn {
@@ -368,7 +370,7 @@
             justify-content: space-around;
             height: 70px;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: #000;
             position: fixed;
             bottom: 0;
             backdrop-filter: blur(5px);
@@ -420,6 +422,200 @@
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
         }
+
+
+
+
+
+
+        /* Explore Section */
+.explore-section-title {
+    font-size: 24px;
+    margin: 20px;
+    color: var(--light-purple);
+}
+
+.explore-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 20px;
+    margin-bottom: 30px;
+}
+
+.category-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.category-card i {
+    font-size: 24px;
+    color: var(--light-purple);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.category-card span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.recommendations-container {
+    padding: 0 20px;
+}
+
+.recommendation-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.recommendation-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+   
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.recommendation-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.recommendation-cover {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: var(--dark-purple);
+    position: relative;
+    overflow: hidden;
+}
+
+.recommendation-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recommendation-cover i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: var(--text-light);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.recommendation-item:hover .recommendation-cover i {
+    opacity: 1;
+}
+
+.recommendation-info {
+    padding: 10px;
+   
+}
+
+.recommendation-name {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recommendation-artist {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: var(--dark-purple);
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.genre-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.genre-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.genre-item:hover {
+    background-color: var(--accent-purple);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    color: var(--light-purple);
+}
+
+.loading-spinner i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
     </style>
 </head>
 <body>
@@ -457,10 +653,46 @@
 
         <!-- Search Section -->
         <section id="search-section" class="content-section">
-            <h2 class="search-section-title">Search</h2>
-            <div style="padding: 20px; text-align: center;">
-                <p>Use the search bar in the Home section to find music</p>
+            <h2 class="explore-section-title">Explore</h2>
+    <div class="explore-categories">
+        <div class="category-card active" data-category="top-tracks">
+            <i class="fas fa-fire"></i>
+            <span>Top Tracks</span>
+        </div>
+        <div class="category-card" data-category="top-artists">
+            <i class="fas fa-star"></i>
+            <span>Top Artists</span>
+        </div>
+        <div class="category-card" data-category="hyped">
+            <i class="fas fa-bolt"></i>
+            <span>Hyped Tracks</span>
+        </div>
+        <div class="category-card" data-category="tags">
+            <i class="fas fa-tag"></i>
+            <span>By Genre</span>
+        </div>
+    </div>
+    
+    <div class="recommendations-container">
+        <h3 class="recommendation-title" id="recommendation-header">Top Tracks This Week</h3>
+        <div class="recommendations-grid" id="recommendations-grid">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Loading recommendations...</span>
             </div>
+        </div>
+    </div>
+    
+    <!-- Add this modal HTML -->
+    <div id="genre-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Select Genre</h3>
+            <div class="genre-grid" id="genre-grid">
+                <!-- Genres will be loaded here -->
+            </div>
+        </div>
+    </div>
         </section>
 
         <!-- Library Section -->
@@ -542,6 +774,7 @@
             setupSearch();
             setupControls();
             setupNavigation();
+            setupExploreSection();
         });
 
         // Player variables
@@ -746,6 +979,303 @@
         function toggleDarkMode() {
             document.body.style.backgroundColor = document.body.style.backgroundColor === 'rgb(0, 0, 0)' ? '#121212' : '#000';
         }
+
+
+
+
+
+
+
+        // Sample recommendation data (in a real app, you'd fetch this from an API)
+const recommendationData = {
+    trending: [
+        { id: 1, title: "Summer Hits 2023", artist: "Various Artists", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000123456789-abcdef-t500x500.jpg" },
+        { id: 2, title: "Dancefloor Fillers", artist: "DJ MixMaster", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000987654321-ghijkl-t500x500.jpg" },
+        { id: 3, title: "Chill Vibes", artist: "Ambient Sounds", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000456789123-mnopqr-t500x500.jpg" },
+        { id: 4, title: "Workout Motivation", artist: "Fitness Beats", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000789123456-stuvwx-t500x500.jpg" }
+    ],
+    "new-releases": [
+        { id: 5, title: "Midnight Memories", artist: "The Night Owls", type: "album", cover: "https://i1.sndcdn.com/artworks-000321654987-yzabcd-t500x500.jpg" },
+        { id: 6, title: "Sunrise Melodies", artist: "Morning Light", type: "album", cover: "https://i1.sndcdn.com/artworks-000654987321-efghij-t500x500.jpg" },
+        { id: 7, title: "Urban Dreams", artist: "City Sounds", type: "album", cover: "https://i1.sndcdn.com/artworks-000987321654-klmnop-t500x500.jpg" },
+        { id: 8, title: "Acoustic Sessions", artist: "Guitar Masters", type: "album", cover: "https://i1.sndcdn.com/artworks-000123987456-qrstuv-t500x500.jpg" }
+    ],
+    "top-charts": [
+        { id: 9, title: "Global Top 50", artist: "Various Artists", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000456123789-wxyzab-t500x500.jpg" },
+        { id: 10, title: "Viral Hits", artist: "Trending Now", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000789456123-cdefgh-t500x500.jpg" },
+        { id: 11, title: "Artist Spotlight", artist: "Featured Creators", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000321789654-ijklmn-t500x500.jpg" },
+        { id: 12, title: "Indie Picks", artist: "Emerging Artists", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000654321987-opqrst-t500x500.jpg" }
+    ],
+    mood: [
+        { id: 13, title: "Focus Flow", artist: "Study Beats", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000987654321-uvwxyz-t500x500.jpg" },
+        { id: 14, title: "Party Starters", artist: "DJ Energy", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000123456789-abcdef-t500x500.jpg" },
+        { id: 15, title: "Relax & Unwind", artist: "Calm Collective", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000456789123-ghijkl-t500x500.jpg" },
+        { id: 16, title: "Road Trip Mix", artist: "Travel Tunes", type: "playlist", cover: "https://i1.sndcdn.com/artworks-000789123456-mnopqr-t500x500.jpg" }
+    ]
+};
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    // ... (keep your existing splash screen code)
+    
+    
+});
+
+
+function loadRecommendations(category) {
+    const recommendations = recommendationData[category] || recommendationData.trending;
+    const grid = document.getElementById('recommendations-grid');
+    
+    grid.innerHTML = '';
+    
+    recommendations.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'recommendation-item';
+        itemElement.innerHTML = `
+            <div class="recommendation-cover">
+                <img src="${item.cover}" alt="${item.title}">
+                <i class="fas fa-play"></i>
+            </div>
+            <div class="recommendation-info">
+                <div class="recommendation-name">${item.title}</div>
+                <div class="recommendation-artist">${item.artist}</div>
+            </div>
+        `;
+        
+        itemElement.addEventListener('click', function() {
+            // In a real app, you would play this item
+            console.log(`Playing ${item.title} by ${item.artist}`);
+            // You would call loadTrack() here with the actual track URL
+        });
+        
+        grid.appendChild(itemElement);
+    });
+}
+
+
+
+const LAST_FM_API_KEY = '0cb1f605725c9e22dbb7863ccac597e5'; // Replace with your actual API key
+const LAST_FM_BASE_URL = 'https://ws.audioscrobbler.com/2.0';
+
+
+
+
+function setupExploreSection() {
+    // Load default recommendations
+    loadTopTracks();
+    
+    // Set up category click handlers
+    const categoryCards = document.querySelectorAll('.category-card');
+    categoryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            
+            // Update active category
+            categoryCards.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Load appropriate content
+            switch(category) {
+                case 'top-tracks':
+                    loadTopTracks();
+                    break;
+                case 'top-artists':
+                    loadTopArtists();
+                    break;
+                case 'hyped':
+                    loadHypedTracks();
+                    break;
+                case 'tags':
+                    openGenreModal();
+                    break;
+            }
+        });
+    });
+    
+    // Set up genre modal
+    const modal = document.getElementById('genre-modal');
+    document.querySelector('.close-modal').addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    // Load genres
+    loadGenres();
+}
+
+// API Functions
+async function fetchLastFMData(method, params = {}) {
+    const queryParams = new URLSearchParams({
+        method,
+        api_key: '0cb1f605725c9e22dbb7863ccac597e5',
+        format: 'json',
+        ...params
+    });
+    
+    try {
+        const response = await fetch(`${LAST_FM_BASE_URL}?${queryParams}`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        showError();
+        return null;
+    }
+}
+
+function showError() {
+    const grid = document.getElementById('recommendations-grid');
+    grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-exclamation-triangle"></i><span>Failed to load. Try again later.</span></div>';
+}
+
+// Recommendation Loaders
+async function loadTopTracks() {
+    document.getElementById('recommendation-header').textContent = 'Top Tracks This Week';
+    const grid = document.getElementById('recommendations-grid');
+    grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading top tracks...</span></div>';
+    
+    const data = await fetchLastFMData('chart.gettoptracks', { limit: 8 });
+    if (!data) return;
+    
+    renderTracks(data.tracks.track);
+}
+
+async function loadTopArtists() {
+    document.getElementById('recommendation-header').textContent = 'Top Artists This Week';
+    const grid = document.getElementById('recommendations-grid');
+    grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading top artists...</span></div>';
+    
+    const data = await fetchLastFMData('chart.gettopartists', { limit: 8 });
+    if (!data) return;
+    
+    renderArtists(data.artists.artist);
+}
+
+async function loadHypedTracks() {
+    document.getElementById('recommendation-header').textContent = 'Hyped Tracks This Week';
+    const grid = document.getElementById('recommendations-grid');
+    grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading hyped tracks...</span></div>';
+    
+    const data = await fetchLastFMData('chart.gethypedtracks', { limit: 8 });
+    if (!data) return;
+    
+    renderTracks(data.tracks.track);
+}
+
+async function loadGenres() {
+    const grid = document.getElementById('genre-grid');
+    const popularTags = [
+        'rock', 'pop', 'hip hop', 'electronic', 'jazz', 
+        'classical', 'reggae', 'country', 'metal', 'indie'
+    ];
+    
+    grid.innerHTML = '';
+    popularTags.forEach(tag => {
+        const genreItem = document.createElement('div');
+        genreItem.className = 'genre-item';
+        genreItem.textContent = tag;
+        genreItem.addEventListener('click', () => {
+            loadTracksByTag(tag);
+            document.getElementById('genre-modal').style.display = 'none';
+        });
+        grid.appendChild(genreItem);
+    });
+}
+
+async function loadTracksByTag(tag) {
+    document.getElementById('recommendation-header').textContent = `Top ${tag.charAt(0).toUpperCase() + tag.slice(1)} Tracks`;
+    const grid = document.getElementById('recommendations-grid');
+    grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading tracks...</span></div>';
+    
+    const data = await fetchLastFMData('tag.gettoptracks', { tag, limit: 8 });
+    if (!data) return;
+    
+    renderTracks(data.tracks.track);
+}
+
+function openGenreModal() {
+    document.getElementById('genre-modal').style.display = 'block';
+}
+
+// Rendering Functions
+function renderTracks(tracks) {
+    const grid = document.getElementById('recommendations-grid');
+    
+    if (!tracks || tracks.length === 0) {
+        grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-music"></i><span>No tracks found</span></div>';
+        return;
+    }
+    
+    grid.innerHTML = '';
+    tracks.forEach(track => {
+        const item = document.createElement('div');
+        item.className = 'recommendation-item';
+        
+        const imageUrl = 'https://charts-images.scdn.co/assets/locale_en/regional/daily/region_global_default.jpg';
+        
+        item.innerHTML = `
+            <div class="recommendation-cover">
+                <img src="${imageUrl}" alt="${track.name}" onerror="this.src='https://charts-images.scdn.co/assets/locale_en/regional/daily/region_global_default.jpg'">
+                <i class="fas fa-play"></i>
+            </div>
+            <div class="recommendation-info">
+                <div class="recommendation-name">${track.name}</div>
+                <div class="recommendation-artist">${track.artist.name}</div>
+            </div>
+        `;
+        
+        item.addEventListener('click', () => {
+            // In a real implementation, you would search SoundCloud for this track
+            console.log(`Selected track: ${track.name} by ${track.artist.name}`);
+            // searchSoundCloud(track.name, track.artist.name);
+        });
+        
+        grid.appendChild(item);
+    });
+}
+
+function renderArtists(artists) {
+    const grid = document.getElementById('recommendations-grid');
+    
+    if (!artists || artists.length === 0) {
+        grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-user"></i><span>No artists found</span></div>';
+        return;
+    }
+    
+    grid.innerHTML = '';
+    artists.forEach(artist => {
+        const item = document.createElement('div');
+        item.className = 'recommendation-item';
+        
+        const imageUrl = 'https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72ce970a3dc68052c0ac7bcc4e7';
+        
+        item.innerHTML = `
+            <div class="recommendation-cover">
+                <img src="${imageUrl}" alt="${artist.name}" onerror="this.src='https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72ce970a3dc68052c0ac7bcc4e7'">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="recommendation-info">
+                <div class="recommendation-name">${artist.name}</div>
+                <div class="recommendation-artist">Artist</div>
+            </div>
+        `;
+        
+        item.addEventListener('click', () => {
+            console.log(`Selected artist: ${artist.name}`);
+            // searchSoundCloudArtist(artist.name);
+        });
+        
+        grid.appendChild(item);
+    });
+}
+
+
+
     </script>
 </body>
 </html>-
