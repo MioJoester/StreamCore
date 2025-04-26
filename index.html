@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamCore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="asset/icon.png">
+    <link rel="manifest" href="/manifest.json">
     <style>
+
         :root {
             --primary-purple: #121212;
             --dark-purple: #121212;
@@ -274,6 +277,7 @@
         /* Library Section */
         #library-section {
             padding: 20px;
+            margin-top: 20px;
         }
 
         .library-section-title {
@@ -617,6 +621,10 @@
     margin-bottom: 10px;
     display: block;
 }
+
+#universal-tweanty-pix-status-bar-space-leave {
+    height: 20px;
+}
     </style>
 </head>
 <body>
@@ -698,6 +706,7 @@
 
         <!-- Library Section -->
         <section id="library-section" class="content-section">
+            <div id="universal-tweanty-pix-status-bar-space-leave"></div>
             <h2 class="library-section-title">Your Library</h2>
             <div class="library-item">
                 <i class="fas fa-heart"></i>
@@ -1277,6 +1286,20 @@ function renderArtists(artists) {
 
 
 
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('[Service Worker] Registered with scope:', registration.scope);
+      }).catch(error => {
+        console.error('[Service Worker] Registration failed:', error);
+      });
+  });
+}
+
+
+
     </script>
 </body>
-</html>-
+</html>-    
