@@ -653,7 +653,64 @@
 
 
 
+}#coverImage:not([src]), 
+#coverImage[src=""], 
+#coverImage[src="undefined"] {
+  /* Base Styles */
+ 
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  
+  /* Purple/White Swirling Gradient */
+  background: linear-gradient(
+    45deg,
+    #8a2be2 0%,    /* Purple */
+    #e6e6fa 25%,   /* Lavender */
+    #9370db 50%,    /* Medium Purple */
+    #ffffff 75%,    /* White */
+    #8a2be2 100%   /* Purple */
+  );
+  background-size: 400% 400%;
+  
+  /* Animation */
+  animation: gradientSwirl 4s ease infinite, 
+             softPulse 2s ease-in-out infinite;
+  
+  /* Vinyl Center (Optional) */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(
+      circle, 
+      #2d0036 30%,  /* Dark Purple */
+      #4b0082 50%,  /* Indigo */
+      #2d0036 70%
+    );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
 }
+
+@keyframes gradientSwirl {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes softPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(0.98); opacity: 1; }
+}
+
+
+
+
 
 .purple-audio-container {
     margin-top: 90px;
