@@ -653,16 +653,19 @@
 
 
 
-}#coverImage:not([src]), 
+#cover-Image {
+  /* Essential reset to kill default icon */
+  display: block;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+#coverImage:not([src]), 
 #coverImage[src=""], 
-#coverImage[src="undefined"] {
-  /* Base Styles */
- 
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  
-  /* Purple/White Swirling Gradient */
+#coverImage[src="undefined"],
+#coverImage[src*="placeholder"] { /* Add other empty states if needed */
+  /* Purple Swirl Animation */
   background: linear-gradient(
     45deg,
     #8a2be2 0%,    /* Purple */
@@ -672,31 +675,22 @@
     #8a2be2 100%   /* Purple */
   );
   background-size: 400% 400%;
+  animation: gradientSwirl 8s ease infinite, 
+             softPulse 4s ease-in-out infinite;
   
-  /* Animation */
-  animation: gradientSwirl 4s ease infinite, 
-             softPulse 2s ease-in-out infinite;
-  
-  /* Vinyl Center (Optional) */
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(
-      circle, 
-      #2d0036 30%,  /* Dark Purple */
-      #4b0082 50%,  /* Indigo */
-      #2d0036 70%
-    );
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
+  /* Vinyl Center */
+  position: relative;
+  overflow: hidden;
 }
 
+/* Hide the default broken image icon */
+#coverImage::-webkit-broken-image {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Animation Keyframes */
 @keyframes gradientSwirl {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -708,6 +702,15 @@
   50% { transform: scale(0.98); opacity: 1; }
 }
 
+/* Optional: Add a subtle shadow */
+#coverImage:not([src])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
 
 
 
