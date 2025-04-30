@@ -5,20 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamCore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" href="./asset/icon.png">
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#121212">
-<!-- iOS Safari -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="StreamCore">
-
-     <script>
-    if (!sessionStorage.getItem('reloadedOnce')) {
-      sessionStorage.setItem('reloadedOnce', 'true');
-      location.reload(true);
-    }
-  </script>
-    
+    <link rel="icon" href="asset/icon.png">
+    <link rel="manifest" href="/manifest.json">
     <style>
 
         :root {
@@ -649,23 +637,24 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    border: none;
 
 
 
 
-#cover-Image {
-  /* Essential reset to kill default icon */
-  display: block;
-  background-color: transparent;
-  border: none;
-  outline: none;
 }
+
 
 #coverImage:not([src]), 
 #coverImage[src=""], 
-#coverImage[src="undefined"],
-#coverImage[src*="placeholder"] { /* Add other empty states if needed */
-  /* Purple Swirl Animation */
+#coverImage[src="undefined"] {
+  /* Base Styles */
+ 
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  
+  /* Purple/White Swirling Gradient */
   background: linear-gradient(
     45deg,
     #8a2be2 0%,    /* Purple */
@@ -675,22 +664,31 @@
     #8a2be2 100%   /* Purple */
   );
   background-size: 400% 400%;
-  animation: gradientSwirl 8s ease infinite, 
-             softPulse 4s ease-in-out infinite;
   
-  /* Vinyl Center */
-  position: relative;
-  overflow: hidden;
+  /* Animation */
+  animation: gradientSwirl 4s ease infinite, 
+             softPulse 2s ease-in-out infinite;
+  
+  /* Vinyl Center (Optional) */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(
+      circle, 
+      #2d0036 30%,  /* Dark Purple */
+      #4b0082 50%,  /* Indigo */
+      #2d0036 70%
+    );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
 }
 
-/* Hide the default broken image icon */
-#coverImage::-webkit-broken-image {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-
-/* Animation Keyframes */
 @keyframes gradientSwirl {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -701,19 +699,6 @@
   0%, 100% { transform: scale(1); opacity: 0.9; }
   50% { transform: scale(0.98); opacity: 1; }
 }
-
-/* Optional: Add a subtle shadow */
-#coverImage:not([src])::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-}
-
-
-
 
 .purple-audio-container {
     margin-top: 90px;
@@ -1506,11 +1491,12 @@ function renderArtists(artists) {
 
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js', { scope: './' })
-            .then(registration => {
-                console.log('SW registered');
-            });
+  navigator.serviceWorker.register('./service-worker.js')
+    .then(function(registration) {
+      console.log('✅ Service Worker registered with scope:', registration.scope);
+    })
+    .catch(function(error) {
+      console.log('❌ Service Worker registration failed:', error);
     });
 }
 
@@ -1714,7 +1700,7 @@ document.getElementById('search-input').addEventListener('input', function() {
   debounceTimer = setTimeout(searchSong, 300); // Wait 300ms after typing
 });
 
-// 4. Load the songs once
+// 4. Load the songs oncew
 loadSongsData();
 
 
