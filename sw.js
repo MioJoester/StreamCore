@@ -1,7 +1,7 @@
 // Filename: sw.js
-const CACHE_NAME = 'streamcore-v1';
+const CACHE_NAME = 'streamcore-v2';
 const ASSETS_TO_CACHE = [
-  './',
+  
   './asset/icon.png',  // Match your actual icon path
        // Adjust names as needed
 ];
