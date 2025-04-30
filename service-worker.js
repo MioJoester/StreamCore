@@ -1,7 +1,6 @@
 const CACHE_NAME = "streamcore-cache-v1";
 const urlsToCache = [
   "./",
-  "./index.html",
   "./manifest.json",
   "./asset/icon.png",
 ];
