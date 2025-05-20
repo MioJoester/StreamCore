@@ -5,7 +5,7 @@
     "scope": "./",
     "display": "standalone",
     "background_color": "#121212",
-    "theme_color": "#121212",
+    "theme_color": "#000000",
     "description": "Your favorite songs, anytime, anywhere.",
     "icons": [
         {
